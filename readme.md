@@ -32,6 +32,8 @@ Before running this project, make sure you have the following installed:
 - **Node.js** (v14 or later)
 - **npm** (or **yarn**)
 
+After installation, check if your IDE shows command options for npm when "npm" is typed in terminal.
+
 ## ⚙️ Installation
 
 1. **Clone the repository**:
@@ -39,7 +41,7 @@ Before running this project, make sure you have the following installed:
     git clone https://github.com/sushilbaligar/petstore_api_automation.git
     ```
 
-2. **Navigate to the project directory**:
+2. **Navigate to the project directory in IDE Terminal Window**:
     ```bash
     cd petstore_api_automation
     ```

@@ -37,17 +37,13 @@ let addPetErrorResponse: any;
 let updatePetErrorResponse: any;
 
 Given('I add a new pet to the store with invalid query details', async function () {
-  const invalidPetData = {
-    id: null, // Invalid ID
-    name: '',
-    status: 'unknown',
-  };
+  console.log(`\n\n----------------POST REQUEST EMPTY PAYLOAD--------------------`);
   try {
     await axios.post("https://petstore.swagger.io/v2/pet/",payload);
   } catch (error: any) {
     addPetErrorResponse = error.response; // Capture the error response
   }
-  console.log(`Create new pet: POST request with Invalid query returned status: ${addPetErrorResponse.status}`);
+  console.log(`RESPONSE: ${addPetErrorResponse.status} ${addPetErrorResponse.statusText}`);
   // console.log(addPetErrorResponse);
 });
 
@@ -56,22 +52,22 @@ Then('I get the add new pet error response properly', function () {
   expect(addPetErrorResponse).to.not.be.undefined;
   expect(addPetErrorResponse.status).to.equal(500);
   expect(addPetErrorResponse.statusText).to.equal("Server Error");
-  console.log(`Create Pet: POST request Error message: ${addPetErrorResponse.statusText}`);
+  console.log('----------EMPTY PAYLOAD VALIDATION DONE---------------------');
 });
 
 When('I send invalid update pet query details', async function () {
-  const invalidUpdateData = {
+  const TempData = {
     id: 123456,
-    name: null,
-    status: 'notValidStatus',
+    name: "jonny",
+    status: 'Available',
   };
-
+  console.log(`\n\n----------------PUT REQUEST INVALID QUERY--------------------`);
   try {
-    await axios.put("https://petstore.swagger.io/v2/pet/1111",invalidUpdateData);
+    await axios.put("https://petstore.swagger.io/v2/pet/1111",TempData);
   } catch (error: any) {
     updatePetErrorResponse = error.response; // Capture the error response
   }
-  console.log(`Update pet: PUT request with Invalid query returned status: ${updatePetErrorResponse.status}`);
+  console.log(`RESPONSE: ${updatePetErrorResponse.status} ${updatePetErrorResponse.statusText}`);
   // console.log(updatePetErrorResponse);
 });
 
@@ -81,5 +77,5 @@ Then('I get the update error response properly', function () {
   expect(updatePetErrorResponse).to.not.be.undefined;
   expect(updatePetErrorResponse.status).to.equal(405);
   expect(updatePetErrorResponse.statusText).to.equal('Method Not Allowed');
-  console.log(`Update Pet: PUT request Error message: ${updatePetErrorResponse.statusText}`);
+  console.log('----------PUT REQUEST VALIDATION DONE---------------------');
 });

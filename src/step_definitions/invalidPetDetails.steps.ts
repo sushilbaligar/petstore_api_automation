@@ -9,6 +9,8 @@ import { expect } from 'chai';
 import axios from 'axios';
 export const PET_API_URL = 'https://petstore.swagger.io/v2/pet';
 
+const API_KEY = "secret_key";
+const headers = { Authorization: `Bearer ${API_KEY}` };
 let payload = {
   "name": "<string>",
   "photoUrls": [
@@ -39,7 +41,7 @@ let updatePetErrorResponse: any;
 Given('I add a new pet to the store with invalid query details', async function () {
   console.log(`\n\n----------------POST REQUEST EMPTY PAYLOAD--------------------`);
   try {
-    await axios.post("https://petstore.swagger.io/v2/pet/",payload);
+    await axios.post("https://petstore.swagger.io/v2/pet/",payload,{headers});
   } catch (error: any) {
     addPetErrorResponse = error.response; // Capture the error response
   }
@@ -63,7 +65,7 @@ When('I send invalid update pet query details', async function () {
   };
   console.log(`\n\n----------------PUT REQUEST INVALID QUERY--------------------`);
   try {
-    await axios.put("https://petstore.swagger.io/v2/pet/1111",TempData);
+    await axios.put("https://petstore.swagger.io/v2/pet/1111",TempData,{headers});
   } catch (error: any) {
     updatePetErrorResponse = error.response; // Capture the error response
   }

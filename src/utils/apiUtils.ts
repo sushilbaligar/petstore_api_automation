@@ -14,29 +14,26 @@ import { PET_API_URL } from '../config/apiConfig'; // Import the base URL
 let response;
 
 // Function to create a new pet
-export const createPet = async (petData: any) => {
-  response = await axios.post(PET_API_URL, petData);
-  // console.log(response);
+export const createPet = async (petData: any, headers: object) => {
+  response = await axios.post(PET_API_URL, petData, { headers });
   return response;
 };
 
 // Function to fetch a pet by ID
-export const getPetById = async (petId: number) => {
-  response = await axios.get(`${PET_API_URL}/${petId}`);
-  // console.log(response);
+export const getPetById = async (petId: number, headers: object) => {
+  response = await axios.get(`${PET_API_URL}/${petId}`, { headers });
   return response;
 };
 
 // Function to update a pet by ID
-export const updatePet = async (petId: number, petData: any) => {
-  response = await axios.put(`${PET_API_URL}`, petData);
-  // console.log(response);
+export const updatePet = async (petData: any, headers: object) => {
+  response = await axios.put(PET_API_URL, petData, { headers });
   return response;
 };
 
 // Function to delete a pet by ID
-export const deletePet = async (petId: number) => {
-  response = await axios.delete(`${PET_API_URL}/${petId}`);
-  // console.log(response);
+export const deletePet = async (petId: number, headers: object) => {
+  response = await axios.delete(`${PET_API_URL}/${petId}`, { headers });
   return response;
 };
+

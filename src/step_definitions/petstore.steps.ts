@@ -12,8 +12,6 @@ import { newPetData, updatedPetData, petwithID } from '../data/petData';
 import { API_KEY } from '../config/apiConfig'; // Import the base URL
 
 const headers = { Authorization: `Bearer ${API_KEY}` };
-let petId: number;
-let petResponse: any;
 
 // Create a new pet using POST request in API utility function
 Given('I add a new pet to the store', async function () {
@@ -21,7 +19,7 @@ Given('I add a new pet to the store', async function () {
   const response = await createPet(petwithID, { headers });
   console.log(`\t\tPET | ${response.data.id} | ${response.data.name} | ${response.data.status} | CREATED`);
   console.log(`\t\tRESPONSE:${response.status} ${response.statusText}`);
-  petId = response.data.id;
+  this.petId = response.data.id;
   expect(response.status).to.equal(200);
   expect(response.statusText).to.equal("OK");
 });
@@ -29,70 +27,70 @@ Given('I add a new pet to the store', async function () {
 // Get pet details using GET request in API utility function
 When('I get the pet details by id', async function () {
   console.log(`----------------GET: GET PET WITH ID--------------------`);
-  const response = await getPetById(petId, { headers });
+  const response = await getPetById(this.petId, { headers });
   console.log(`\t\tRECEIVED PET | ${response.data.name} | ${response.data.status} |`);
   console.log(`\t\tRESPONSE:${response.status} ${response.statusText}`);
   expect(response.status).to.equal(200);
   expect(response.statusText).to.equal("OK");
-  petResponse = response.data;
+  this.petResponse = response.data;
 });
 
 // Validate the record created with POST matches with GET response
 Then('the pet details should be returned successfully', function () {
-  expect(petResponse).to.not.be.null;
-  expect(petResponse.id).to.equal(petId);
-  expect(petResponse.name).to.equal(newPetData.name);
-  expect(petResponse.status).to.equal(newPetData.status);
+  expect(this.petResponse).to.not.be.null;
+  expect(this.petResponse.id).to.equal(this.petId);
+  expect(this.petResponse.name).to.equal(newPetData.name);
+  expect(this.petResponse.status).to.equal(newPetData.status);
   console.log(`----------CREATE PET WITH ID VALIDATION DONE-----------------`);
 });
 
 // Update the pet details using updated data utility
 When('I update the pet details in the store', async function () {
   console.log(`------------PUT: UPDATE PET DETAILS--------------------`);
-  const updatedPet = { id: petId, name: updatedPetData.name, status: updatedPetData.status };
+  const updatedPet = { id: this.petId, name: updatedPetData.name, status: updatedPetData.status };
   const response = await updatePet(updatedPet, { headers });
 
   console.log(`\t\tUPDATED PET | ${response.data.name} | ${response.data.status} |`);
   console.log(`\t\tRESPONSE:${response.status} ${response.statusText}`);
   expect(response.status).to.equal(200);
   expect(response.statusText).to.equal("OK");
-  petResponse = response.data;
+  this.petResponse = response.data;
 });
 
 
 // Validate the updated pet details
 Then('the pet details should be updated successfully', function () {
-  expect(petResponse).to.not.be.null;
-  expect(petResponse.id).to.equal(petId);
-  expect(petResponse.name).to.equal(updatedPetData.name);
-  expect(petResponse.status).to.equal(updatedPetData.status);
+  expect(this.petResponse).to.not.be.null;
+  expect(this.petResponse.id).to.equal(this.petId);
+  expect(this.petResponse.name).to.equal(updatedPetData.name);
+  expect(this.petResponse.status).to.equal(updatedPetData.status);
   console.log(`----------UPDATE PET VALIDATION DONE-----------------`);
 });
 
 // Delete the pet using its ID
 When('I delete the pet by ID', async function () {
   console.log(`------------DELETE REQUEST--------------------`);
-  console.log(`DELETE PET DETAILS BY ID:${petId}`);
-  const response = await deletePet(petId, { headers });
+  console.log(`DELETE PET DETAILS BY ID:${this.petId}`);
+  const response = await deletePet(this.petId, { headers });
   console.log(`\t\tRESPONSE:${response.status} ${response.statusText}`);
   expect(response.status).to.equal(200);
   expect(response.statusText).to.equal("OK");
-  petResponse = response.data;
+  this.petResponse = response.data;
 });
 
 // Assert that the response for deletion was successful
 Then('the pet should be successfully deleted', function () {
-  expect(petResponse).to.have.property('message', String(petId));
+  expect(this.petResponse).to.have.property('message', String(this.petId));
   console.log(`------------DELETE REQ ASSERTION DONE--------------------`);
 });
 
 // Verify that the pet does not exist
 Then('the pet should no longer be accessed by ID', async function () {
   console.log(`------------GET REQUEST--------------------`);
-  console.log(`-----------GET DELETED PET DETAILS BY ID:${petId}`);
+  console.log(`-----------GET DELETED PET DETAILS BY ID:${this.petId}`);
   let getResponse: any;
   try {
-    getResponse = await getPetById(petId, { headers });
+    getResponse = await getPetById(this.petId, { headers });
   } catch (error: any) {
     getResponse = error.response;
   }

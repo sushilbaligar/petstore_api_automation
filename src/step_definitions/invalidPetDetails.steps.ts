@@ -7,45 +7,21 @@
 import { Given, When, Then } from '@cucumber/cucumber';
 import { expect } from 'chai';
 import axios from 'axios';
-export const PET_API_URL = 'https://petstore.swagger.io/v2/pet';
+import { emptyPetData} from '../data/petData';
+import { PET_API_URL,API_KEY } from '../config/apiConfig'; 
 
-const API_KEY = "secret_key";
 const headers = { Authorization: `Bearer ${API_KEY}` };
-let payload = {
-  "name": "<string>",
-  "photoUrls": [
-    "<string>",
-    "<string>"
-  ],
-  "id": "<long>",
-  "category": {
-    "id": "<long>",
-    "name": "<string>"
-  },
-  "tags": [
-    {
-      "id": "<long>",
-      "name": "<string>"
-    },
-    {
-      "id": "<long>",
-      "name": "<string>"
-    }
-  ],
-  "status": "pending"
-}
-
 let addPetErrorResponse: any;
 let updatePetErrorResponse: any;
 
 Given('I add a new pet to the store with invalid query details', async function () {
   console.log(`\n\n----------------POST REQUEST EMPTY PAYLOAD--------------------`);
   try {
-    await axios.post("https://petstore.swagger.io/v2/pet/",payload,{headers});
+    await axios.post(PET_API_URL,emptyPetData,{headers});
   } catch (error: any) {
     addPetErrorResponse = error.response; // Capture the error response
   }
-  console.log(`RESPONSE: ${addPetErrorResponse.status} ${addPetErrorResponse.statusText}`);
+  console.log(`\t\tRESPONSE: ${addPetErrorResponse.status} ${addPetErrorResponse.statusText}`);
   // console.log(addPetErrorResponse);
 });
 
@@ -65,11 +41,11 @@ When('I send invalid update pet query details', async function () {
   };
   console.log(`\n\n----------------PUT REQUEST INVALID QUERY--------------------`);
   try {
-    await axios.put("https://petstore.swagger.io/v2/pet/1111",TempData,{headers});
+    await axios.put(PET_API_URL+"/1111",TempData,{headers});
   } catch (error: any) {
     updatePetErrorResponse = error.response; // Capture the error response
   }
-  console.log(`RESPONSE: ${updatePetErrorResponse.status} ${updatePetErrorResponse.statusText}`);
+  console.log(`\t\tRESPONSE: ${updatePetErrorResponse.status} ${updatePetErrorResponse.statusText}`);
   // console.log(updatePetErrorResponse);
 });
 

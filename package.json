@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "tsc",
-    "test": "cucumber-js --require-module ts-node/register --require ./src/step_definitions/**/*.ts ./src/features/**/*.feature --format progress"
+    "test": "cucumber-js --require-module ts-node/register --require ./src/step_definitions/**/*.ts ./src/features/**/*.feature --format html:report.html"
   },
   "devDependencies": {
     "@cucumber/cucumber": "^11.1.1",

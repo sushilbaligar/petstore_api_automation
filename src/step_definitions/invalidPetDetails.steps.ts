@@ -7,7 +7,7 @@
 import { Given, When, Then } from '@cucumber/cucumber';
 import { expect } from 'chai';
 import axios from 'axios';
-import { emptyPetData} from '../data/petData';
+import { emptyPetData,newPetData} from '../data/petData';
 import { PET_API_URL,API_KEY } from '../config/apiConfig'; 
 
 const headers = { Authorization: `Bearer ${API_KEY}` };
@@ -22,7 +22,6 @@ Given('I add a new pet to the store with invalid query details', async function 
     addPetErrorResponse = error.response; // Capture the error response
   }
   console.log(`\t\tRESPONSE: ${addPetErrorResponse.status} ${addPetErrorResponse.statusText}`);
-  // console.log(addPetErrorResponse);
 });
 
 Then('I get the add new pet error response properly', function () {
@@ -34,19 +33,13 @@ Then('I get the add new pet error response properly', function () {
 });
 
 When('I send invalid update pet query details', async function () {
-  const TempData = {
-    id: 123456,
-    name: "jonny",
-    status: 'Available',
-  };
   console.log(`\n\n----------------PUT REQUEST INVALID QUERY--------------------`);
   try {
-    await axios.put(PET_API_URL+"/1111",TempData,{headers});
+    await axios.put(PET_API_URL+"/1111",newPetData,{headers});
   } catch (error: any) {
     updatePetErrorResponse = error.response; // Capture the error response
   }
   console.log(`\t\tRESPONSE: ${updatePetErrorResponse.status} ${updatePetErrorResponse.statusText}`);
-  // console.log(updatePetErrorResponse);
 });
 
 
